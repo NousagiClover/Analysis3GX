@@ -4,20 +4,24 @@
 
 namespace CTRPluginFramework
 {
+  void ErrorMessage(std::string text);
+  bool AccessCheck(u32 &address);
+
   class Draw
   {
     private:
+      static u32 posX;
       static u32 posY;
     public:
-      static void topScrDraw(std::string text);
-      static void topScrDraw(int pos);
+      static void DrawTopScr(std::string text, int posXAddValue = 0, int posYAddValue = 10);
+      static void DrawBottomScr(std::string text, int posXAddValue = 0, int posYAddValue = 10);
+      static void DrawPosition(int posX = 0, int posY = 0);
+      static void GetDrawPosition(int &posX, int &posY);
   };
 
   class RangeWriteManager
   {
     private:
-      void ErrorMessage(std::string text);
-      bool AccessCheck(u32 &address);
       static u32 freeAddress;
       static u32 startAddress;
       static u32 endAddress;
@@ -26,9 +30,8 @@ namespace CTRPluginFramework
       static u32 hits;
       static bool searched;
     public:
-      bool SetFreeAddress();
-      bool SearchDataInput();
-      bool SearchWrite();
-      bool ReturnWrite();
+      static bool SetFreeAddress();
+      static bool SearchWrite();
+      static bool ReturnWrite();
   };
 }

@@ -19,5 +19,6 @@ namespace CTRPluginFramework
     void addressConf(MenuEntry* entry);
     void maxMinValue(MenuEntry* entry);
     void rangeWrite(MenuEntry* entry);
+    void getFreeMemory(MenuEntry* entry);
 }
 #endif

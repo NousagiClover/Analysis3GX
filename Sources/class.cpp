@@ -2,28 +2,13 @@
 
 namespace CTRPluginFramework
 {
-  /* Draw */
+  /* Global */
 
-  void Draw::topScrDraw(std::string text)
-  {
-    Screen topScr = OSD::GetTopScreen();
-    topScr.Draw(text, 0, posY);
-    Draw::posY += 10;
-  }
-  void Draw::topScrDraw(int pos)
-  {
-    Draw::posY = pos;
-  }
-
-  u32 Draw::posY = 0;
-
-  /* RangeWriteManager */
-
-  void RangeWriteManager::ErrorMessage(std::string text)
+  void ErrorMessage(std::string text)
   {
     MessageBox(Color::Red << "エラー", text)();
   }
-  bool RangeWriteManager::AccessCheck(u32 &address)
+  bool AccessCheck(u32 &address)
   {
     if (! Process::CheckAddress(address, MEMPERM_READWRITE))
     {
@@ -34,6 +19,39 @@ namespace CTRPluginFramework
     }
     return true;
   }
+
+  /* Draw */
+
+  void Draw::DrawTopScr(std::string text, int posXAddValue, int posYAddValue)
+  {
+    const Screen &topScr = OSD::GetTopScreen();
+    topScr.Draw(text, posX, posY);
+    Draw::posX += posXAddValue;
+    Draw::posY += posYAddValue;
+  }
+  void Draw::DrawBottomScr(std::string text, int posXAddValue, int posYAddValue)
+  {
+    const Screen &bottom = OSD::GetBottomScreen();
+    bottom.Draw(text, posX, posY);
+    Draw::posX += posXAddValue;
+    Draw::posY += posYAddValue;
+  }
+  void Draw::DrawPosition(int posX, int posY)
+  {
+    Draw::posX = posX;
+    Draw::posY = posY;
+  }
+  void Draw::GetDrawPosition(int &posX, int &posY)
+  {
+    posX = Draw::posX;
+    posY = Draw::posY;
+  }
+
+  u32 Draw::posX = 0;
+  u32 Draw::posY = 0;
+
+  /* RangeWriteManager */
+
   bool RangeWriteManager::SetFreeAddress()
   {
     Keyboard kb("サーチ結果を記録するアドレスを入力して下さい\n"
@@ -51,8 +69,13 @@ namespace CTRPluginFramework
     OSD::Notify(Utils::Format("[SET] Search Memory: 0x%08X", freeAddress));
     return false;
   }
-  bool RangeWriteManager::SearchDataInput()
+  bool RangeWriteManager::SearchWrite()
   {
+    if (searched)
+    {
+      ErrorMessage("サーチデータが戻されていません。\n戻すを選択して下さい");
+      return true;
+    }
     Keyboard kbStart("開始アドレスを入力して下さい");
     Keyboard kbEnd("終了アドレスを入力して下さい");
     Keyboard kbTarget("検索対象となる値を入力して下さい");
@@ -84,10 +107,7 @@ namespace CTRPluginFramework
     {
       return true;
     }
-    return false;
-  }
-  bool RangeWriteManager::SearchWrite()
-  {
+
     if (startAddress > endAddress)
     {
       ErrorMessage("開始アドレスが終了アドレスより大きいです\n" +
@@ -102,14 +122,19 @@ namespace CTRPluginFramework
 
     for (int i = 0; i < rangeSize; i++)
     {
-      Process::Read32(startAddress + i * 4, value);
+      u32 address = startAddress + i * 4;
+      if (! AccessCheck(address))
+      {
+        searched = true;
+        return true;
+      }
+      Process::Read32(address, value);
       if (targetValue == value)
       {
-        Process::Write32(startAddress + i * 4, writeValue);
-        Process::Write32(free, startAddress + i * 4);
+        Process::Write32(address, writeValue);
+        Process::Write32(free, address);
         free += 4;
         hits++;
-        searched = true;
       }
     }
     OSD::Notify(Utils::Format("StartAddress: %08X", startAddress));
@@ -117,6 +142,7 @@ namespace CTRPluginFramework
     OSD::Notify(Utils::Format("Target      : %08X", targetValue));
     OSD::Notify(Utils::Format("Replace     : %08X", writeValue));
     OSD::Notify(Utils::Format("%d Address hits!", hits));
+    searched = true;
     return false;
   }
   bool RangeWriteManager::ReturnWrite()

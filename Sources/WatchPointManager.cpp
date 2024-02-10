@@ -4,8 +4,6 @@
 #include "CTRPluginFrameworkImpl/System/ProcessImpl.hpp"
 #include "CTRPluginFramework/Graphics/OSD.hpp"
 #include "CTRPluginFramework/Utils/Utils.hpp"
-#include "CTRPluginFramework/System/Sleep.hpp"
-#include "CTRPluginFramework/System/Time.hpp"
 
 namespace CTRPluginFramework
 {
@@ -185,7 +183,6 @@ namespace CTRPluginFramework
 
             if ((hit._flags & WatchPointHit::Skip) == 0)
                 OSD::Notify(Utils::Format("WP%d triggered: 0x%08X", wpid, wfar));
-                Sleep(Milliseconds(500));
 
             if (true) {
                 

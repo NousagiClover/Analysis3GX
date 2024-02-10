@@ -94,9 +94,7 @@ WatchPointManager.o: \
  C:/devkitPro/libctrpf/include/CTRPluginFramework/System/Process.hpp \
  C:/devkitPro/libctrpf/include/CTRPluginFramework/Graphics/OSD.hpp \
  C:/devkitPro/libctrpf/include/CTRPluginFramework/Graphics/Color.hpp \
- C:/devkitPro/libctrpf/include/CTRPluginFramework/Utils/Utils.hpp \
- C:/devkitPro/libctrpf/include/CTRPluginFramework/System/Sleep.hpp \
- C:/devkitPro/libctrpf/include/CTRPluginFramework/System/Time.hpp
+ C:/devkitPro/libctrpf/include/CTRPluginFramework/Utils/Utils.hpp
 C:/devkitPro/libctrpf/include/CTRPluginFrameworkImpl/Menu/WatchPointManager.hpp:
 C:/Users/Clover/Desktop/Analysis3GX/Includes/types.h:
 C:/devkitPro/libctru/include/3ds.h:
@@ -192,5 +190,3 @@ C:/devkitPro/libctrpf/include/CTRPluginFramework/System/Process.hpp:
 C:/devkitPro/libctrpf/include/CTRPluginFramework/Graphics/OSD.hpp:
 C:/devkitPro/libctrpf/include/CTRPluginFramework/Graphics/Color.hpp:
 C:/devkitPro/libctrpf/include/CTRPluginFramework/Utils/Utils.hpp:
-C:/devkitPro/libctrpf/include/CTRPluginFramework/System/Sleep.hpp:
-C:/devkitPro/libctrpf/include/CTRPluginFramework/System/Time.hpp:

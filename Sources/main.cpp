@@ -128,19 +128,20 @@ exit:
 
         menu += new MenuEntry(Color::Yellow << "パッチコード作成自動化", nullptr, autoPatchCode, noteAutoPatchCode);
         menu += EntryWithHotkey(new MenuEntry(Color::Orange << "ウォッチポイント（逆アセ）", nullptr, doWPManager), {Hotkey(Key::R | Y, "監視開始"), Hotkey(Key::R | X, "監視終了"), Hotkey(Key::R | A, "一時停止")});
-        menu += EntryWithHotkey(new MenuEntry(Color::Turquoise << "レジスタ確認", regConf), {Hotkey(Key::L | Y, "アドレス変更"), Hotkey(Key::L | X, "エントリー無効")});
+        menu += new MenuEntry(Color::Turquoise << "レジスタ確認", nullptr, regConf);
         menu += new MenuEntry(Color::Magenta << "アドレス監視", nullptr, addressConf, noteAddressConf);
         menu += new MenuEntry(Color::Lime << "16進数電卓", nullptr, calcHex);
-        menu += new MenuEntry(Color::DimGrey << "分岐値計算", nullptr, calcBranch);
+        menu += new MenuEntry(Color::Silver << "分岐値計算", nullptr, calcBranch);
         menu += new MenuEntry(Color::SkyBlue << "最大最小値調査", nullptr, maxMinValue, noteMaxMinValue);
         menu += new MenuEntry(Color::LimeGreen << "範囲書き込み", nullptr, rangeWrite, noteRangeWrite);
+        menu += new MenuEntry(Color::Cyan << "空きメモリ確保", nullptr, getFreeMemory);
     }
 
     int     main(void)
     {
-        PluginMenu *menu = new PluginMenu(Color::Red << "Analysis CTRPF 3GX", 1, 0, 0,
+        PluginMenu *menu = new PluginMenu(Color::Red << "Analysis CTRPF 3GX", 1, 0, 1,
                                             "元となった3gx作成者: xv\n"
-                                            "Twitter: @xv_anx\n"
+                                            "Twitter: xvcfw_\n"
                                             "YouTube: xvcfw\n"
                                             "Discord: xvcfw\n"
                                             "--------------------------------\n"
@@ -167,6 +168,7 @@ exit:
         }
         OSD::Notify("Hello, world!");
         OSD::Notify("3GX for game analysis!");
+        OSD::Notify("Version: 1.0.1");
 
         InitMenu(*menu);
         menu->Run();
